@@ -1,7 +1,19 @@
 import { SpriteSpec } from '../types/gameSpec';
 
+function resolveUrl(url: string): string {
+  // Leave fully-qualified and data URLs unchanged
+  if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
+    return url;
+  }
+  // Ensure paths work when the app is served from a sub-path (GitHub Pages)
+  const clean = url.startsWith('/') ? url.slice(1) : url;
+  const base = (import.meta.env.BASE_URL ?? '/');
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  return `${normalizedBase}${clean}`;
+}
+
 export async function loadJson<T>(url: string): Promise<T> {
-  const res = await fetch(url, { cache: 'no-cache' });
+  const res = await fetch(resolveUrl(url), { cache: 'no-cache' });
   if (!res.ok) {
     throw new Error(`Failed to load JSON at ${url}: ${res.status} ${res.statusText}`);
   }
@@ -13,7 +25,7 @@ export function loadImage(url: string): Promise<HTMLImageElement> {
     const img = new Image();
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error(`Failed to load image at ${url}`));
-    img.src = url;
+    img.src = resolveUrl(url);
   });
 }
 
