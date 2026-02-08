@@ -12,6 +12,7 @@ export default function App() {
   const base = import.meta.env.BASE_URL ?? '/';
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const MUTE_KEY = 'app.audio.muted';
   const handleIntroComplete = useCallback(() => {
     setIntroOpen(true);
     const a = audioRef.current;
@@ -36,6 +37,32 @@ export default function App() {
       return next;
     });
   }, []);
+  useEffect(() => {
+    // Load persisted mute preference
+    try {
+      const v = localStorage.getItem(MUTE_KEY);
+      if (v === '1') {
+        setIsMuted(true);
+        if (audioRef.current) {
+          audioRef.current.muted = true;
+        }
+      }
+    } catch {
+      // ignore storage errors
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    // Persist preference on change
+    try {
+      localStorage.setItem(MUTE_KEY, isMuted ? '1' : '0');
+    } catch {
+      // ignore storage errors
+    }
+    if (audioRef.current) {
+      audioRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
   useEffect(() => {
     if (toast !== null) {
       const t = setTimeout(() => setToast(null), 3000);
