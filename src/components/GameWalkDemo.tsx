@@ -50,7 +50,8 @@ function drawFrame(
   frameCursor: number,
   x: number,
   y: number,
-  facing: 1 | -1
+  facing: 1 | -1,
+  extraScale: number = 1
 ): void {
   const { spec, image, columns } = sprite;
   const frameIndex = animation.frameIndices[frameCursor % animation.frameIndices.length];
@@ -59,8 +60,8 @@ function drawFrame(
   const sx = (frameIndex % columns) * fw;
   const sy = Math.floor(frameIndex / columns) * fh;
 
-  const scaleX = spec.scale * (facing === -1 ? -1 : 1);
-  const scaleY = spec.scale;
+  const scaleX = spec.scale * extraScale * (facing === -1 ? -1 : 1);
+  const scaleY = spec.scale * extraScale;
   const originX = fw * spec.origin.x;
   const originY = fh * spec.origin.y;
 
@@ -77,8 +78,8 @@ export function GameWalkDemo(props: DemoProps) {
   const [error, setError] = useState<string | null>(null);
   const [ready, setReady] = useState<boolean>(false);
   const groundYRef = useRef<number>(DEFAULT_CONFIG.startPositions.y);
-  const [phase, setPhase] = useState<'idle' | 'playing' | 'met'>('idle');
-  const phaseRef = useRef<'idle' | 'playing' | 'met'>('idle');
+  const [phase, setPhase] = useState<'idle' | 'playing' | 'met' | 'together'>('idle');
+  const phaseRef = useRef<'idle' | 'playing' | 'met' | 'together'>('idle');
   phaseRef.current = phase;
   const controlsRef = useRef<{ start: () => void; stepFrame: () => void; stepFrameMale: () => void } | null>(null);
   const metStartTsRef = useRef<number | null>(null);
@@ -92,6 +93,7 @@ export function GameWalkDemo(props: DemoProps) {
     let running = true;
     let lastTs = 0;
     let bgImage: HTMLImageElement | null = null;
+    let togetherSprite: LoadedSprite | null = null;
 
     async function loadFirstAvailableImage(urls: ReadonlyArray<string>): Promise<HTMLImageElement | null> {
       for (const url of urls) {
@@ -126,9 +128,10 @@ export function GameWalkDemo(props: DemoProps) {
 
     const setup = async () => {
       try {
-        const [male, female] = await Promise.all([
+        const [male, female, together] = await Promise.all([
           loadSprite('/assets/male.json'),
-          loadSprite('/assets/female.json')
+          loadSprite('/assets/female.json'),
+          loadSprite('/assets/together.json')
         ]);
 
         const config: GameConfig = {
@@ -136,6 +139,7 @@ export function GameWalkDemo(props: DemoProps) {
           male: male.spec,
           female: female.spec
         };
+        togetherSprite = together;
 
         const canvas = canvasRef.current;
         if (!canvas) {
@@ -269,8 +273,19 @@ export function GameWalkDemo(props: DemoProps) {
             ctx.fillStyle = 'red';
             ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
           }
-          drawFrame(ctx, male, maleEntity.animation, maleEntity.frameCursor, maleEntity.x, maleEntity.y, maleEntity.facing);
-          drawFrame(ctx, female, femaleEntity.animation, femaleEntity.frameCursor, femaleEntity.x, femaleEntity.y, femaleEntity.facing);
+          if (phaseRef.current !== 'together') {
+            drawFrame(ctx, male, maleEntity.animation, maleEntity.frameCursor, maleEntity.x, maleEntity.y, maleEntity.facing);
+            drawFrame(ctx, female, femaleEntity.animation, femaleEntity.frameCursor, femaleEntity.x, femaleEntity.y, femaleEntity.facing);
+          } else if (togetherSprite) {
+            const centerX2 = canvasEl.width / 2;
+            const centerY2 = canvasEl.height / 2;
+            const animTogether = getAnimation(togetherSprite.spec, 'idle');
+            const fitScale = Math.min(
+              (canvasEl.width * 0.7) / togetherSprite.spec.frameWidth,
+              (canvasEl.height * 0.7) / togetherSprite.spec.frameHeight
+            );
+            drawFrame(ctx, togetherSprite, animTogether, 0, centerX2, centerY2, 1, fitScale);
+          }
 
           // Proposal dialog sequence overlay when met (top-center)
           if (phaseRef.current === 'met') {
@@ -378,7 +393,7 @@ export function GameWalkDemo(props: DemoProps) {
               <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 8 }}>
                 <button
                   type="button"
-                  onClick={() => { setShowModal(false); onAccept && onAccept(); }}
+                  onClick={() => { setShowModal(false); setPhase('together'); onAccept && onAccept(); }}
                   style={{
                     appearance: 'none',
                     border: 0,

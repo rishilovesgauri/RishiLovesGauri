@@ -1,0 +1,14 @@
+{
+  "imageUrl": "/assets/together.png",
+  "frameWidth": 500,
+  "frameHeight": 500,
+  "totalFrames": 1,
+  "defaultAnimation": "idle",
+  "animations": [
+    { "name": "idle", "frameIndices": [0], "framesPerSecond": 1, "loop": true }
+  ],
+  "origin": { "x": 0.5, "y": 0.5 },
+  "scale": 1.0,
+  "canFlipX": false
+}
+ 
