@@ -1,0 +1,14 @@
+{
+    "imageUrl": "/assets/m1.png",
+    "frameWidth": 128,
+    "frameHeight": 180,
+    "totalFrames": 8,
+    "defaultAnimation": "walk",
+    "animations": [
+      { "name": "walk", "frameIndices": [0,1,2,3], "framesPerSecond": 4, "loop": true }
+    ],
+    "origin": { "x": 0.5, "y": 0.85 },
+    "scale": 1.0,
+    "canFlipX": true
+  }
+  
