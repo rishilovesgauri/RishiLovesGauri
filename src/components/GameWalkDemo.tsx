@@ -304,7 +304,10 @@ export function GameWalkDemo(props: DemoProps) {
             ctx.textBaseline = 'top';
             ctx.fillStyle = '#ffffff';
             ctx.strokeStyle = 'rgba(0,0,0,0.6)';
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 3;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.miterLimit = 2.5;
             ctx.font = 'bold 22px ui-sans-serif, system-ui, -apple-system';
             const text = DIALOGS[seg];
             const prevAlpha = ctx.globalAlpha;

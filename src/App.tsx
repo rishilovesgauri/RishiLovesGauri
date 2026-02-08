@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { NavBar } from './components/NavBar';
 import { Section } from './components/Section';
 import { LoveLetterIntro } from './components/LoveLetterIntro';
@@ -10,8 +10,31 @@ export default function App() {
   const [unlocked, setUnlocked] = useState<boolean>(false);
   const [toast, setToast] = useState<string | null>(null);
   const base = import.meta.env.BASE_URL ?? '/';
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   const handleIntroComplete = useCallback(() => {
     setIntroOpen(true);
+    const a = audioRef.current;
+    if (a) {
+      a.currentTime = 0;
+      a.loop = true;
+      if (!isMuted) {
+        void a.play();
+      }
+    }
+  }, [isMuted]);
+  const toggleMuted = useCallback(() => {
+    const a = audioRef.current;
+    setIsMuted((prev) => {
+      const next = !prev;
+      if (a) {
+        a.muted = next;
+        if (!next && a.paused) {
+          void a.play();
+        }
+      }
+      return next;
+    });
   }, []);
   useEffect(() => {
     if (toast !== null) {
@@ -22,10 +45,56 @@ export default function App() {
 
   return (
     <div className="app-root">
+      <audio ref={audioRef} preload="auto">
+        <source src={`${base}assets/CherryBlossoms.mp3`} type="audio/mpeg" />
+      </audio>
       <LoveLetterIntro isOpen={introOpen} onComplete={handleIntroComplete} />
 
       <div aria-hidden={!introOpen} className={`site-shell ${introOpen ? 'visible' : 'hidden'}`}>
         <NavBar />
+        <button
+          type="button"
+          onClick={toggleMuted}
+          aria-label={isMuted ? 'Unmute background music' : 'Mute background music'}
+          style={{
+            position: 'fixed',
+            top: 10,
+            right: 12,
+            appearance: 'none',
+            border: 0,
+            background: isMuted ? 'rgba(255,255,255,0.12)' : 'linear-gradient(180deg, var(--accent), #e93157)',
+            color: 'white',
+            padding: '0.4rem 0.7rem',
+            borderRadius: 999,
+            cursor: 'pointer',
+            fontWeight: 700,
+            boxShadow: '0 6px 16px rgba(0,0,0,.25)',
+            zIndex: 50,
+            fontFamily: 'Inter',
+            letterSpacing: '.2px'
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="currentColor"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M3 9v6h4l5 4V5L7 9H3z" />
+            {!isMuted && (
+              <>
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z" />
+                <path d="M14 3.23v2.06c3.39.49 6 3.39 6 6.71s-2.61 6.22-6 6.71v2.06c4.45-.52 8-4.31 8-8.77s-3.55-8.25-8-8.77z" />
+              </>
+            )}
+            {isMuted && (
+              <path d="M19 5L5 19" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            )}
+          </svg>
+        </button>
 
         <main>
           <Section id="valentine-proposal" title="Valentine Proposal">
