@@ -9,6 +9,7 @@ export default function App() {
   const [introOpen, setIntroOpen] = useState<boolean>(false);
   const [unlocked, setUnlocked] = useState<boolean>(false);
   const [toast, setToast] = useState<string | null>(null);
+  const base = import.meta.env.BASE_URL ?? '/';
   const handleIntroComplete = useCallback(() => {
     setIntroOpen(true);
   }, []);
@@ -38,7 +39,7 @@ export default function App() {
           <Section id="gauri" title="Gauri">
             <div className="section-grid">
               <figure className="section-image">
-                <img src="/assets/gauri.jpg" alt="Gauri" />
+                <img src={`${base}assets/gauri.jpg`} alt="Gauri" />
               </figure>
               <div className="section-body">
                 <p>
@@ -53,7 +54,7 @@ export default function App() {
           <Section id="rishi" title="Rishi">
             <div className="section-grid">
               <figure className="section-image">
-                <img src="/assets/rishi.jpeg" alt="Rishi" />
+                <img src={`${base}assets/rishi.jpeg`} alt="Rishi" />
               </figure>
               <div className="section-body">
                 <p>
@@ -71,7 +72,7 @@ export default function App() {
           <Section id="love-story" title="Our Love Story">
             <div className="section-grid">
               <figure className="section-image">
-                <img src="/assets/story.jpg" alt="Our love story" />
+                <img src={`${base}assets/story.jpg`} alt="Our love story" />
               </figure>
               <div className="section-body">
                 <p>
