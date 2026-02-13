@@ -207,6 +207,9 @@ export function GameWalkDemo(props: DemoProps) {
         controlsRef.current = {
           start: () => {
             resetToStart();
+            setShowModal(false);
+            modalShownRef.current = false;
+            setNoClicks(0);
             setPhase('playing');
           },
           stepFrame: () => {
@@ -312,6 +315,7 @@ export function GameWalkDemo(props: DemoProps) {
               const modalDelayReached = elapsed >= (lastIndex + 1) * DIALOG_DURATION_MS;
               if (modalDelayReached && !modalShownRef.current) {
                 modalShownRef.current = true;
+                setNoClicks(0);
                 setShowModal(true);
               }
             }
