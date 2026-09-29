@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type CSSProperties } from 'react';
 import {
   AMREEKA_PHOTOS,
   HERO_PHOTO,
@@ -9,6 +9,12 @@ import {
   type PolaroidPhoto,
 } from './photos';
 import '../styles/birthday.css';
+
+type PolaroidStyle = CSSProperties & {
+  '--polaroid-width': string;
+  '--polaroid-img-height': string;
+  '--polaroid-rotate': string;
+};
 
 type RuleAlign = 'start' | 'center' | 'end';
 type RuleSpacing = 'after-hero' | 'section' | 'section-tight';
@@ -41,20 +47,15 @@ function Polaroid(props: PolaroidProps): JSX.Element {
     photo.variant === 'featured'
       ? 'birthday-polaroid birthday-polaroid--featured'
       : 'birthday-polaroid';
+  const style: PolaroidStyle = {
+    '--polaroid-width': `${photo.widthPx}px`,
+    '--polaroid-img-height': `${photo.imageHeightPx}px`,
+    '--polaroid-rotate': `${photo.rotateDeg}deg`,
+  };
 
   return (
-    <figure
-      className={className}
-      style={{
-        width: `${photo.widthPx}px`,
-        transform: `rotate(${photo.rotateDeg}deg)`,
-      }}
-    >
-      <img
-        src={`${assetBase}${photo.fileName}`}
-        alt={photo.alt}
-        style={{ height: `${photo.imageHeightPx}px` }}
-      />
+    <figure className={className} style={style}>
+      <img src={`${assetBase}${photo.fileName}`} alt={photo.alt} />
     </figure>
   );
 }
