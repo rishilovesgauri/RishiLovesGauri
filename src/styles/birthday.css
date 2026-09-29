@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+html.birthday-route,
+html.birthday-route body,
+html.birthday-route #root {
+  height: auto;
+  min-height: 100%;
+}
+
+html.birthday-route,
+html.birthday-route body {
+  color: #f6e9df;
+  overflow-x: auto;
+  background-color: #17090e;
+  background-image: radial-gradient(120% 60% at 50% 0%, #3a1520 0%, #220d14 45%, #17090e 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+html.birthday-route body::before,
+html.birthday-route body::after {
+  content: none;
+  display: none;
+}
+
+.birthday-page {
+  min-height: 100%;
+  background: transparent;
+}
+
+.birthday-canvas {
+  width: 1400px;
+  margin: 0 auto;
+  background: transparent;
+  padding: 96px 70px 120px;
+  box-sizing: border-box;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: #f6e9df;
+  position: relative;
+  overflow: hidden;
+}
+
+.birthday-hero {
+  display: flex;
+  gap: 56px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.birthday-hero-copy {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-bottom: 18px;
+}
+
+.birthday-kicker {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #e3a87c;
+  margin-bottom: 28px;
+}
+
+.birthday-page h1.birthday-title {
+  margin: 0;
+  margin-bottom: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: 118px;
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #f6e9df;
+}
+
+.birthday-title-name {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.birthday-lede {
+  margin: 34px 0 0;
+  font-size: 29px;
+  line-height: 1.5;
+  max-width: 15em;
+  color: #e6cfc2;
+  font-style: italic;
+  text-wrap: pretty;
+}
+
+.birthday-hero .birthday-polaroid {
+  flex: 0 0 auto;
+}
+
+.birthday-rule {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.birthday-rule--after-hero {
+  margin: 86px 0 44px;
+}
+
+.birthday-rule--section {
+  margin: 104px 0 44px;
+}
+
+.birthday-rule--section-tight {
+  margin: 104px 0 20px;
+}
+
+.birthday-rule-label {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #e3a87c;
+  white-space: nowrap;
+}
+
+.birthday-rule-line {
+  flex: 1 1 auto;
+  height: 1px;
+}
+
+.birthday-rule-line--out {
+  background: linear-gradient(90deg, rgba(227, 168, 124, 0.55), rgba(227, 168, 124, 0));
+}
+
+.birthday-rule-line--in {
+  background: linear-gradient(90deg, rgba(227, 168, 124, 0), rgba(227, 168, 124, 0.55));
+}
+
+.birthday-caption {
+  margin: 0 auto 46px;
+  max-width: 20em;
+  text-align: center;
+  font-size: 27px;
+  font-style: italic;
+  line-height: 1.5;
+  color: #e6cfc2;
+}
+
+.birthday-caption--wide {
+  margin: 0 0 46px;
+  max-width: 30em;
+  text-align: left;
+}
+
+.birthday-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 36px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.birthday-grid--parents {
+  gap: 34px;
+  align-items: center;
+}
+
+.birthday-grid--amreeka {
+  gap: 48px 36px;
+  align-items: center;
+}
+
+.birthday-polaroid {
+  margin: 0;
+  padding: 13px 13px 15px;
+  background: #f7efe6;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
+}
+
+.birthday-polaroid--featured {
+  padding: 18px 18px 20px;
+  background: #fbf5ed;
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.6);
+  outline: 1px solid rgba(227, 168, 124, 0.35);
+  outline-offset: 9px;
+}
+
+.birthday-polaroid img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.birthday-letter-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 118px 0 0;
+}
+
+.birthday-letter {
+  width: 760px;
+  background: #fbf5ed;
+  color: #3a2019;
+  padding: 70px 76px 62px;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
+  transform: rotate(-0.5deg);
+  position: relative;
+}
+
+.birthday-letter-kicker {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #a8705a;
+  margin-bottom: 30px;
+}
+
+.birthday-letter-body {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.55;
+  white-space: pre-line;
+  text-wrap: pretty;
+}
+
+.birthday-letter-signoff {
+  margin: 44px 0 0;
+  font-size: 34px;
+  font-style: italic;
+  text-align: right;
+  color: #7a3b3b;
+}
+
+.birthday-footer {
+  text-align: center;
+  margin-top: 76px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(246, 233, 223, 0.55);
+}

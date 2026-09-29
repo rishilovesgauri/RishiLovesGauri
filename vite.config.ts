@@ -1,3 +1,4 @@
+import { copyFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -8,7 +9,15 @@ const isCI = process.env.GITHUB_ACTIONS === 'true';
 
 export default defineConfig({
   base: isCI && repoName ? `/${repoName}/` : '/',
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'spa-github-pages-fallback',
+      closeBundle: () => {
+        copyFileSync('dist/index.html', 'dist/404.html');
+      }
+    }
+  ],
   server: {
     port: 5173,
     open: true
