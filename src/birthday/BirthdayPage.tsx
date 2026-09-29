@@ -104,7 +104,7 @@ export function BirthdayPage(): JSX.Element {
               <span className="birthday-title-name">Gauri</span>
             </h1>
             <p className="birthday-lede">
-              Let's peek through your life and see if you remember any of these moments
+              A peek into the life of the badass woman we know and love as Gauri Sinha. 
             </p>
           </div>
           <Polaroid photo={HERO_PHOTO} assetBase={assetBase} />
