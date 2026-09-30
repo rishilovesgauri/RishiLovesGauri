@@ -23,9 +23,39 @@ html.birthday-route body::after {
   display: none;
 }
 
+html.birthday-route.birthday-cursor-on,
+html.birthday-route.birthday-cursor-on * {
+  cursor: none !important;
+}
+
 .birthday-page {
   min-height: 100%;
   background: transparent;
+}
+
+.birthday-cursor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.birthday-cursor-layer canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.birthday-cursor-bottle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 52px;
+  height: auto;
+  transform-origin: 26px 4px;
+  opacity: 0;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
+  will-change: transform;
 }
 
 .birthday-canvas {

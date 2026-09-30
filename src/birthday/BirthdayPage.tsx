@@ -1,4 +1,5 @@
 import { useEffect, type CSSProperties } from 'react';
+import { ChampagneCursor } from './ChampagneCursor';
 import {
   AMREEKA_PHOTOS,
   HERO_PHOTO,
@@ -95,6 +96,7 @@ export function BirthdayPage(): JSX.Element {
 
   return (
     <div className="birthday-page">
+      <ChampagneCursor />
       <div className="birthday-canvas">
         <div className="birthday-hero">
           <div className="birthday-hero-copy">
